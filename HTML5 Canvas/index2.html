@@ -1,0 +1,83 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas Animation</title>
+	<style>
+	body {
+		background: #333;
+	}
+	#canvas_container {
+		width: 1000px;
+		margin: 20px auto;
+	}
+	#my_canvas {
+		background: #fff;
+		border: #999 1px solid;
+	}
+	#space {
+		display: none;
+	}
+	</style>
+	<script>
+	// This is for background
+	var bg = new Image();
+	bg.src = "stars.jpg";
+	// END HERE
+	function initCanvas() {
+		var ctx = document.getElementById('my_canvas').getContext('2d');
+		var cW = ctx.canvas.width, cH = ctx.canvas.height;
+		var y = 100;
+		var x = 20;
+		var width = 1000;
+		 function Background(){
+        this.x = 0, this.y = 0, this.w = bg.width, this.h = bg.height;
+        this.render = function(){
+            ctx.drawImage(bg, this.x--, 0);
+            if(this.x <= -499){
+                this.x = 0;
+            }
+        }
+    }
+    var background = new Background();
+    var img=document.getElementById("space");
+		function animate(){
+			ctx.save();
+			ctx.clearRect(0, 0, cW, cH);
+			// ONLY DRAW HERE
+			background.render();
+			ctx.drawImage(img, x, y, 160, 80);
+			// END HERE
+			ctx.restore();
+		}
+			var animateInterval = setInterval(animate, 30);
+		document.addEventListener('keydown', function(event){
+			var key_press = String.fromCharCode(event.keyCode);
+
+			//alert(event.keyCode);
+			if(key_press === "W") {
+				y-=3;
+			}
+			if(key_press === "S") {
+				y+=3;
+			}
+			if(key_press === "D") {
+				x+=3;
+			}
+			if(key_press === "A") {
+				x-=3;
+			}
+
+		});
+	}
+
+	window.addEventListener('load', function(event){
+		initCanvas();
+	});
+	</script>
+</head>
+<body>
+<div id="canvas_container"><canvas id="my_canvas" width="1000" height="500"></canvas></div>
+<audio autoplay="true"><source src="game.mp3" type="audio/mpeg" /></audio>
+<img src="spaceship.png" id="space"></img>
+</body>
+</html>
